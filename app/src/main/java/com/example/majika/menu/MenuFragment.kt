@@ -1,5 +1,10 @@
 package com.example.majika.menu
 
+import android.content.Context
+import android.hardware.SensorManager
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,9 +17,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.majika.databinding.FragmentMenuBinding
 
-class MenuFragment : Fragment() {
+class MenuFragment : Fragment(), SensorEventListener {
     private val viewModel: MenuViewModel by viewModels()
     private lateinit var binding: FragmentMenuBinding
+    private lateinit var sensormanager: SensorManager
+    private lateinit var tempsensor: Sensor
+    private var isTempSensorAvailable = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +49,36 @@ class MenuFragment : Fragment() {
             manager = GridLayoutManager(activity, 2)
         }
         binding.menuResponse.layoutManager = manager
+
+        sensormanager = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
+
+        if (sensormanager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE) != null) {
+            tempsensor = sensormanager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
+            isTempSensorAvailable = true
+        } else {
+            binding.temperature.text = "-"
+            isTempSensorAvailable = false
+        }
         return binding.root
+    }
+
+    override fun onSensorChanged(event: SensorEvent) {
+        binding.temperature.text = (event.values[0].toInt()).toString() + "°C"
+    }
+
+    override fun onAccuracyChanged(p0: Sensor?, p1: Int) {}
+
+    override fun onResume() {
+        super.onResume()
+        if(isTempSensorAvailable){
+            sensormanager.registerListener(this, tempsensor, SensorManager.SENSOR_DELAY_NORMAL)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if(isTempSensorAvailable){
+            sensormanager.unregisterListener(this)
+        }
     }
 }

@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.majika.databinding.FragmentTwibbonBinding
+import com.google.common.util.concurrent.ListenableFuture
 
 class TwibbonFragment : Fragment() {
 
@@ -23,6 +24,8 @@ class TwibbonFragment : Fragment() {
     private lateinit var binding: FragmentTwibbonBinding
     private var imageCapture: ImageCapture? = null
     private lateinit var viewModel: TwibbonViewModel
+    private var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>? = null
+    private var cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,9 +46,11 @@ class TwibbonFragment : Fragment() {
             binding.retakePictBtn.visibility = View.VISIBLE
         }
 
+        cameraProviderFuture = ProcessCameraProvider
+            .getInstance(requireContext())
         if (allPermissionsGranted()) {
             Toast.makeText(requireContext(), "We Have Permissions", Toast.LENGTH_SHORT).show()
-            startCamera()
+            startCamera(cameraSelector)
         } else {
             ActivityCompat.requestPermissions(
                 requireActivity(),
@@ -54,6 +59,14 @@ class TwibbonFragment : Fragment() {
             )
         }
 
+        binding.changeCamera.setOnCheckedChangeListener({_, isChecked ->
+            cameraSelector = if (isChecked) {
+                CameraSelector.DEFAULT_FRONT_CAMERA
+            } else {
+                CameraSelector.DEFAULT_BACK_CAMERA
+            }
+            startCamera(cameraSelector)
+        })
 
         binding.takePictBtn.setOnClickListener({
             takePicture()
@@ -66,6 +79,11 @@ class TwibbonFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+    }
+
     private fun takePicture() {
         binding.cameraPreview.visibility = View.GONE
         binding.pictureImage.visibility = View.VISIBLE
@@ -75,6 +93,7 @@ class TwibbonFragment : Fragment() {
         Toast.makeText(requireContext(), "Picture Captured", Toast.LENGTH_LONG).show()
         binding.takePictBtn.visibility = View.GONE
         binding.retakePictBtn.visibility = View.VISIBLE
+        binding.changeCamera.visibility = View.GONE
     }
 
     private fun reTakePicute() {
@@ -84,19 +103,16 @@ class TwibbonFragment : Fragment() {
         Toast.makeText(requireContext(), "Retake Picture", Toast.LENGTH_LONG).show()
         binding.takePictBtn.visibility = View.VISIBLE
         binding.retakePictBtn.visibility = View.GONE
+        binding.changeCamera.visibility = View.VISIBLE
     }
 
-    private fun startCamera() {
-        val cameraProviderFuture = ProcessCameraProvider
-            .getInstance(requireContext())
-
-        cameraProviderFuture.addListener({
-            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+    private fun startCamera(cameraSelector : CameraSelector) {
+        cameraProviderFuture?.addListener({
+            val cameraProvider: ProcessCameraProvider = cameraProviderFuture!!.get()
 
             val preview = Preview.Builder()
                 .build()
                 .also { mPreview ->
-
                     mPreview.setSurfaceProvider(
                         binding.cameraPreview.surfaceProvider
                     )
@@ -105,11 +121,8 @@ class TwibbonFragment : Fragment() {
             imageCapture = ImageCapture.Builder()
                 .build()
 
-            var cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
             try {
                 cameraProvider.unbindAll()
-
                 cameraProvider.bindToLifecycle(
                     this, cameraSelector, preview, imageCapture
                 )
@@ -126,4 +139,12 @@ class TwibbonFragment : Fragment() {
                 it
             ) == PackageManager.PERMISSION_GRANTED
         }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cameraProviderFuture?.addListener({
+            val cameraProvider: ProcessCameraProvider = cameraProviderFuture!!.get()
+            cameraProvider.unbindAll()
+        }, ContextCompat.getMainExecutor(requireContext()))
+    }
 }

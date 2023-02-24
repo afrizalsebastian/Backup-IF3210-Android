@@ -79,6 +79,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/twibbon" />
 
+        <ToggleButton
+            android:id="@+id/changeCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="128dp"
+            android:backgroundTint="#901C18"
+            android:textOn="Back Camera"
+            android:textOff="Front Camera"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/twibbon" />
+
         <Button
             android:id="@+id/retakePictBtn"
             android:layout_width="wrap_content"

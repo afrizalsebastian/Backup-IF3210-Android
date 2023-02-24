@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitClient {
 
     private val BASE_URL =
-        "http://192.168.1.2:8000" //Ganti dengan Base URL pada masing-masing device
+        "http://192.168.1.33:8000" //Ganti dengan Base URL pada masing-masing device
 
     val instace: API by lazy {
         val retrofit = Retrofit.Builder()

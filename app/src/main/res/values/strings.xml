@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Majika</string>
+    <string name="maps">Maps</string>
+    <string name="branch_title">Cabang Restorant</string>
+    <string name="cart_title">Keranjang</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="twibbon_description">Twibbon Description</string>
+    <string name="capture_btn">Capture</string>
+    <string name="retake_btn">Retake</string>
+    <string name="pict_description">Image Description</string>
+    <string name="twibbon">Twibbon</string>
+    <string name="change_camera">Change Camera</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="payment_title">Pembayaran</string>
+    <string name="scantext">Scan</string>
+    <string name="backbutton">Tombol Kembali</string>
+    <string name="menu_title">Menu</string>
+    <string name="addItem">Add To Cart</string>
+
+</resources>

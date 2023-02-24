@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:foregroundGravity="center"
+    app:layout_anchorGravity="center"
+    app:layout_constraintBaseline_toBottomOf="parent"
+    tools:context=".cart.CartFragment"
+    tools:ignore="UselessParent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="67dp"
+            android:background="@color/Darker_Primary"
+            android:fontFamily="@font/inter_semibold"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/cart_title"
+            android:textColor="#000000"
+            android:textSize="24sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listkeranjang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:scrollbars="vertical"
+            android:verticalScrollbarPosition="right" />
+    </LinearLayout>
+
+
+</FrameLayout>

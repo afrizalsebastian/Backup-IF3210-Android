@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/judul_pembayaran"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:backgroundTint="#000000"
+    android:outlineAmbientShadowColor="@color/black"
+    android:outlineSpotShadowColor="@color/black"
+    app:layout_anchorGravity="center"
+    tools:context=".payment.PaymentFragment">
+
+    <LinearLayout
+        tools:ignore="UselessParent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/Darker_Primary"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="69dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:background="#00FFFFFF"
+                android:contentDescription="@string/backbutton"
+                android:outlineAmbientShadowColor="@color/black"
+                android:src="?attr/homeAsUpIndicator"
+                app:tint="@color/black" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="302dp"
+                android:layout_height="67dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/inter_semibold"
+                android:gravity="center_horizontal|center_vertical"
+                android:paddingStart="-80dp"
+                android:paddingEnd="0dp"
+                android:text="@string/payment_title"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="24sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:fontFamily="@font/inter_semibold"
+            android:gravity="center_horizontal"
+            android:text="@string/scantext"
+            android:textColor="#000000"
+            android:textSize="24sp" />
+
+        <FrameLayout
+            android:layout_width="350dp"
+            android:layout_height="350dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:paddingHorizontal="30dp"
+            android:paddingVertical="30dp">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="320dp"
+                android:layout_height="320dp"
+                android:contentDescription="@string/dummy_content"
+                tools:src="@android:drawable/sym_def_app_icon" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/inter_semibold"
+            android:gravity="center"
+            android:text="@android:string/paste_as_plain_text"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+</FrameLayout>
